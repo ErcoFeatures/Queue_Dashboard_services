@@ -67,7 +67,6 @@ public class Queue {
         return "Queue{" +
                 "id=" + id +
                 ", label='" + label + '\'' +
-                ", customers=" + customers +
                 '}';
     }
 }

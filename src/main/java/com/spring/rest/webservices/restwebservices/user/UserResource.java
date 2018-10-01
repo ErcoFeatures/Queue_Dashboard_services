@@ -1,7 +1,7 @@
 package com.spring.rest.webservices.restwebservices.user;
 
 
-import com.spring.rest.webservices.restwebservices.Exception.UserNotNotFoundException;
+import com.spring.rest.webservices.restwebservices.Exception.ResourceNotNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class UserJPAResource {
+public class UserResource {
 
 
     @Autowired
@@ -35,7 +35,7 @@ public class UserJPAResource {
     public Resource<User>  retrieveUsers(@PathVariable int id) {
         Optional<User> user = userRepository.findById(id);
         if (!user.isPresent()) {
-            throw new UserNotNotFoundException("id-" + id);
+            throw new ResourceNotNotFoundException("id-" + id);
         }
 
         // "all-users", SERVER_PATH + "/users"
@@ -67,7 +67,7 @@ public class UserJPAResource {
         Optional<User> userOptional = userRepository.findById(id);
 
         if(!userOptional.isPresent()){
-            throw  new UserNotNotFoundException("id-" +id);
+            throw  new ResourceNotNotFoundException("id-" +id);
         }
 
 
@@ -78,7 +78,7 @@ public class UserJPAResource {
         Optional<User> userOptional = userRepository.findById(id);
 
         if(!userOptional.isPresent()){
-            throw  new UserNotNotFoundException("id-" +id);
+            throw  new ResourceNotNotFoundException("id-" +id);
         }
         User user = userOptional.get();
 
