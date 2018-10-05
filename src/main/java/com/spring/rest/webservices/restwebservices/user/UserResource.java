@@ -2,6 +2,8 @@ package com.spring.rest.webservices.restwebservices.user;
 
 
 import com.spring.rest.webservices.restwebservices.Exception.ResourceNotNotFoundException;
+import com.spring.rest.webservices.restwebservices.member.Queue;
+import com.spring.rest.webservices.restwebservices.member.QueueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
@@ -23,15 +25,15 @@ public class UserResource {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private PostRepository postRepository;
+    private QueueRepository queueRepository;
 
-    @GetMapping("/jpa/users")
+    @GetMapping("/users")
     public List<User> retrieveAllUsers() {
         return userRepository.findAll();
 
     }
 
-    @GetMapping("/jpa/users/{id}")
+    @GetMapping("/users/{id}")
     public Resource<User>  retrieveUsers(@PathVariable int id) {
         Optional<User> user = userRepository.findById(id);
         if (!user.isPresent()) {
@@ -48,12 +50,12 @@ public class UserResource {
         return resource;
 
     }
-    @DeleteMapping("/jpa/users/{id}")
+    @DeleteMapping("/users/{id}")
     public void  deleteUser(@PathVariable int id) {
         userRepository.deleteById(id);
     }
 
-    @PostMapping("/jpa/users")
+    @PostMapping("/users")
     public ResponseEntity<Object> createUser(@Valid @RequestBody User user) {
         User savedUser = userRepository.save(user);
 
@@ -62,8 +64,8 @@ public class UserResource {
     }
 
 
-    @GetMapping("/jpa/users/{id}/posts")
-    public List<Post> retrieveAllUserPosts(@PathVariable int id){
+    @GetMapping("/users/{id}/Queues")
+    public List<Queue> retrieveAllUserQueues(@PathVariable int id){
         Optional<User> userOptional = userRepository.findById(id);
 
         if(!userOptional.isPresent()){
@@ -71,10 +73,10 @@ public class UserResource {
         }
 
 
-        return userOptional.get().getPosts();
+        return userOptional.get().getQueues();
     }
-    @PostMapping("/jpa/users/{id}/posts")
-    public ResponseEntity<Object> createPost(@PathVariable int id, @RequestBody Post  post) {
+    @PostMapping("/users/{id}/Queues")
+    public ResponseEntity<Object> createPost(@PathVariable int id, @RequestBody Queue  queue) {
         Optional<User> userOptional = userRepository.findById(id);
 
         if(!userOptional.isPresent()){
@@ -82,10 +84,10 @@ public class UserResource {
         }
         User user = userOptional.get();
 
-        post.setUser(user);
-        postRepository.save(post);
+        queue.setUser(user);
+        queueRepository.save(queue);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(post.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(queue.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 }

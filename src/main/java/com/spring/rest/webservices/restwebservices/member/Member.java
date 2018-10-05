@@ -1,11 +1,11 @@
-package com.spring.rest.webservices.restwebservices.customer;
+package com.spring.rest.webservices.restwebservices.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
 @Entity
-public class Customer {
+public class Member {
 
     @Id
     @GeneratedValue
@@ -51,7 +51,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
+        return "Member{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", phone_number='" + phone_number + '\'' +

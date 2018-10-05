@@ -1,15 +1,12 @@
-package com.spring.rest.webservices.restwebservices.customer;
+package com.spring.rest.webservices.restwebservices.member;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.rest.webservices.restwebservices.user.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Date;
 import java.util.List;
 
 @ApiModel(description = "All details about the Queue")
@@ -24,13 +21,22 @@ public class Queue {
     private String label;
 
     @OneToMany(mappedBy = "queue")
-    private List<Customer> customers;
+    private List<Member> members;
 
-    // not implemented now
-    //    private User user;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JsonIgnore
+    private User user;
 
     protected Queue(){
 
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Queue(Integer id, String label) {
@@ -54,12 +60,12 @@ public class Queue {
         this.label = label;
     }
 
-    public List<Customer> getCustomers() {
-        return customers;
+    public List<Member> getMembers() {
+        return members;
     }
 
-    public void setCustomers(List<Customer> customers) {
-        this.customers = customers;
+    public void setMembers(List<Member> members) {
+        this.members = members;
     }
 
     @Override

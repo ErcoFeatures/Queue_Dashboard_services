@@ -1,4 +1,4 @@
-package com.spring.rest.webservices.restwebservices.customer;
+package com.spring.rest.webservices.restwebservices.member;
 
 
 import com.spring.rest.webservices.restwebservices.Exception.ResourceNotNotFoundException;
@@ -24,7 +24,7 @@ public class QueueResource {
     private QueueRepository queueRepository;
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private MemberRepository memberRepository;
 
     @GetMapping("/queues")
     public List<Queue> retrieveAllQueues (){
@@ -58,27 +58,27 @@ public class QueueResource {
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping("/queues/{id}/customers")
-    public List<Customer> retrieveAllQueueCustomers(@PathVariable int id){
+    @GetMapping("/queues/{id}/members")
+    public List<Member> retrieveAllQueuemembers(@PathVariable int id){
         Optional<Queue> queueOptional = queueRepository.findById(id);
 
         if((!queueOptional.isPresent())){
             throw  new ResourceNotNotFoundException("id-" +id);
         }
-        return queueOptional.get().getCustomers();
+        return queueOptional.get().getMembers();
     }
 
-    @PostMapping("/queues/{id}/customers")
-    public ResponseEntity<Object> createCustomer(@PathVariable int id, @RequestBody Customer customer){
+    @PostMapping("/queues/{id}/members")
+    public ResponseEntity<Object> createMember(@PathVariable int id, @RequestBody Member member){
         Optional<Queue> queueOptional = queueRepository.findById(id);
         if(!queueOptional.isPresent()){
             throw  new ResourceNotNotFoundException(("id-" +id));
         }
         Queue queue = queueOptional.get();
-        customer.setQueue(queue);
-        customerRepository.save(customer);
+        member.setQueue(queue);
+        memberRepository.save(member);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(customer.getId()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(member.getId()).toUri();
 
         return ResponseEntity.created(location).build();
     }

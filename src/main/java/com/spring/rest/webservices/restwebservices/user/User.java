@@ -1,5 +1,6 @@
 package com.spring.rest.webservices.restwebservices.user;
 
+import com.spring.rest.webservices.restwebservices.member.Queue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -29,7 +30,7 @@ public class User {
     private Date birthDate;
 
     @OneToMany(mappedBy = "user")
-    private List<Post> posts;
+    private List<Queue> Queues;
 
 
     protected  User (){
@@ -65,12 +66,12 @@ public class User {
         this.birthDate = birthDate;
     }
 
-    public List<Post> getPosts() {
-        return posts;
+    public List<Queue> getQueues() {
+        return Queues;
     }
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
+    public void setQueues(List<Queue> Queues) {
+        this.Queues = Queues;
     }
     @Override
     public String toString() {
