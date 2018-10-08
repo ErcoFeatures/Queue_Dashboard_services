@@ -28,7 +28,7 @@ public class SwaggerConfig {
             DEFAULT_CONTACT, "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0");
 
     public static final Set<String> DEFAULT_PRODUER_AND_CONSUMES = new HashSet<String>(Arrays.asList("application/json", "application/xml"));
-    // Bean -Docket
+
 
 
     @Bean
@@ -39,9 +39,4 @@ public class SwaggerConfig {
                 .consumes(DEFAULT_PRODUER_AND_CONSUMES);
     }
 
-    // Swagger 2
-
-    // All the path
-
-    // All the apis
 }
