@@ -1,7 +1,6 @@
-package com.spring.rest.webservices.restwebservices.member;
+package com.spring.rest.webservices.restwebservices.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.spring.rest.webservices.restwebservices.user.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

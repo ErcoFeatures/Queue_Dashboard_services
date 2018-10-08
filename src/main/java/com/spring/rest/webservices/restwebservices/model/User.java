@@ -1,6 +1,5 @@
-package com.spring.rest.webservices.restwebservices.user;
+package com.spring.rest.webservices.restwebservices.model;
 
-import com.spring.rest.webservices.restwebservices.member.Queue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

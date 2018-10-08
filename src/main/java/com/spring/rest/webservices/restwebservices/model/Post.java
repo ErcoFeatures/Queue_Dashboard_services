@@ -1,4 +1,4 @@
-package com.spring.rest.webservices.restwebservices.user;
+package com.spring.rest.webservices.restwebservices.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
