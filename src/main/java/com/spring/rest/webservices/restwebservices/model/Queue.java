@@ -6,7 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @ApiModel(description = "All details about the Queue")
 @Entity
@@ -19,23 +20,23 @@ public class Queue {
     @ApiModelProperty(notes = "The Queue label should have at least 2 characters")
     private String label;
 
-    @OneToMany(mappedBy = "queue")
-    private List<Member> members;
+    @ManyToMany(mappedBy="queues")
+    private Set<User> members = new HashSet<User>();
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JsonIgnore
-    private User user;
+    private User owner;
 
     protected Queue(){
 
     }
 
     public User getUser() {
-        return user;
+        return owner;
     }
 
     public void setUser(User user) {
-        this.user = user;
+        this.owner = user;
     }
 
     public Queue(Integer id, String label) {
@@ -59,11 +60,11 @@ public class Queue {
         this.label = label;
     }
 
-    public List<Member> getMembers() {
+    public Set<User> getMembers() {
         return members;
     }
 
-    public void setMembers(List<Member> members) {
+    public void setMembers(Set<User> members) {
         this.members = members;
     }
 

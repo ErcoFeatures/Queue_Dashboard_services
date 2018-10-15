@@ -4,7 +4,6 @@ package com.spring.rest.webservices.restwebservices.controller;
 import com.spring.rest.webservices.restwebservices.Exception.ResourceNotNotFoundException;
 import com.spring.rest.webservices.restwebservices.model.Queue;
 import com.spring.rest.webservices.restwebservices.model.User;
-import com.spring.rest.webservices.restwebservices.repository.MemberRepository;
 import com.spring.rest.webservices.restwebservices.repository.QueueRepository;
 import com.spring.rest.webservices.restwebservices.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -28,15 +26,13 @@ public class QueueController {
     @Autowired
     private QueueRepository queueRepository;
 
-    @Autowired
-    private MemberRepository memberRepository;
 
     @Autowired
     private UserRepository userRepository;
 
 
     @GetMapping("/users/{id}/queues")
-    public List<Queue> retrieveAllUserQueues(@PathVariable int id) {
+    public Set<Queue> retrieveAllUserQueues(@PathVariable int id) {
         Optional<User> userOptional = userRepository.findById(id);
 
         if (!userOptional.isPresent()) {
@@ -48,7 +44,7 @@ public class QueueController {
     }
 
     @PostMapping("/users/{id}/queues")
-    public ResponseEntity<Object> createPost(@PathVariable int id, @RequestBody Queue queue) {
+    public ResponseEntity<Object> createQueue(@PathVariable int id, @RequestBody Queue queue) {
         Optional<User> userOptional = userRepository.findById(id);
 
         if (!userOptional.isPresent()) {
@@ -85,4 +81,34 @@ public class QueueController {
     public void deleteQueue(@PathVariable int id) {
         queueRepository.deleteById(id);
     }
+
+
+    // member ressource
+
+
+    @GetMapping("/queues/{id}/members")
+    public Set<User> retrieveAllQueueMembers(@PathVariable int id){
+        Optional<Queue> queueOptional = queueRepository.findById(id);
+
+        if((!queueOptional.isPresent())){
+            throw  new ResourceNotNotFoundException("id-" +id);
+        }
+        return queueOptional.get().getMembers();
+    }
+
+    @PostMapping("/queues/{id}/members")
+    public ResponseEntity<Object> createQueueMember(@PathVariable int id, @RequestBody User member){
+        Optional<Queue> queueOptional = queueRepository.findById(id);
+        if(!queueOptional.isPresent()){
+            throw  new ResourceNotNotFoundException(("id-" +id));
+        }
+        Queue queue = queueOptional.get();
+        queue.getMembers().add(member);
+        userRepository.save(member);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(member.getId()).toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+
 }
