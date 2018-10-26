@@ -8,12 +8,11 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
 @ApiModel(description = "All details about the user")
-@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User {
 
 
@@ -27,11 +26,11 @@ public class User {
     @ApiModelProperty(notes = "Birth date should be in the past")
     private Date birthDate;
 
-    @ManyToMany
-    @JoinTable(name = "member",
-            joinColumns = { @JoinColumn(name = "fk_member") },
-            inverseJoinColumns = { @JoinColumn(name = "fk_queue") })
+    @OneToMany
     private Set<Queue> queues = new HashSet<Queue>();
+
+//    @ManyToOne
+//    private Queue queue;
 
     protected  User (){
 
@@ -73,6 +72,7 @@ public class User {
     public void setQueues(Set<Queue> queues) {
         this.queues = queues;
     }
+
     @Override
     public String toString() {
         return "com.spring.rest.webservices.restwebservices.entity.User{" +

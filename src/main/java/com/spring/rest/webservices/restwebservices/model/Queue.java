@@ -20,22 +20,23 @@ public class Queue {
     @ApiModelProperty(notes = "The Queue label should have at least 2 characters")
     private String label;
 
-    @ManyToMany(mappedBy="queues")
-    private Set<User> members = new HashSet<User>();
+    @OneToMany
+    @JoinColumn(name="queue_id", insertable = false, updatable = false)
+    private Set<Member> members = new HashSet<Member>();
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JsonIgnore
-    private User owner;
+    private Manager owner;
 
     protected Queue(){
 
     }
 
-    public User getUser() {
+    public Manager getUser() {
         return owner;
     }
 
-    public void setUser(User user) {
+    public void setUser(Manager user) {
         this.owner = user;
     }
 
@@ -60,11 +61,11 @@ public class Queue {
         this.label = label;
     }
 
-    public Set<User> getMembers() {
+    public Set<Member> getMembers() {
         return members;
     }
 
-    public void setMembers(Set<User> members) {
+    public void setMembers(Set<Member> members) {
         this.members = members;
     }
 
