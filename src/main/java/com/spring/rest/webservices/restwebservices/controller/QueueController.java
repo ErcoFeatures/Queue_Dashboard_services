@@ -2,11 +2,8 @@ package com.spring.rest.webservices.restwebservices.controller;
 
 
 import com.spring.rest.webservices.restwebservices.Exception.ResourceNotNotFoundException;
-import com.spring.rest.webservices.restwebservices.model.Manager;
-import com.spring.rest.webservices.restwebservices.model.Member;
 import com.spring.rest.webservices.restwebservices.model.Queue;
 import com.spring.rest.webservices.restwebservices.model.User;
-import com.spring.rest.webservices.restwebservices.repository.ManagerRespository;
 import com.spring.rest.webservices.restwebservices.repository.QueueRepository;
 import com.spring.rest.webservices.restwebservices.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,19 +29,10 @@ public class QueueController {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private ManagerRespository managerRespository;
-
-
-//    @GetMapping("/hello-world")
-//    public String helloWord() {
-//        return "Hello World jkhfddksjnsdjvhbs";
-//    }
-
 
     @GetMapping("/users/{id}/queues")
-    public Set<Queue> retrieveAllUserQueues(@PathVariable int id) {
-        Optional<Manager> userOptional = managerRespository.findById(id);
+    public Set<Queue> retrieveAllUserQueues(@PathVariable int id ) {
+        Optional<User> userOptional = userRepository.findById(id);
 
         if (!userOptional.isPresent()) {
             throw new ResourceNotNotFoundException("id-" + id);
@@ -54,13 +42,13 @@ public class QueueController {
 
     @PostMapping("/users/{id}/queues")
     public ResponseEntity<Object> createQueue(@PathVariable int id, @RequestBody Queue queue) {
-        Optional<Manager> userOptional = managerRespository.findById(id);
+        Optional<User> userOptional = userRepository.findById(id);
         if (!userOptional.isPresent()) {
             throw new ResourceNotNotFoundException("id-" + id);
         }
-        Manager user = userOptional.get();
+        User user = userOptional.get();
 
-        queue.setUser(user);
+        queue.setOwner(user);
         queueRepository.save(queue);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(queue.getId()).toUri();
@@ -95,7 +83,7 @@ public class QueueController {
 
 
     @GetMapping("/queues/{id}/members")
-    public Set<Member> retrieveAllQueueMembers(@PathVariable int id){
+    public Set<User> retrieveAllQueueMembers(@PathVariable int id){
         Optional<Queue> queueOptional = queueRepository.findById(id);
 
         if((!queueOptional.isPresent())){
@@ -104,13 +92,15 @@ public class QueueController {
         return queueOptional.get().getMembers();
     }
 
-    @PostMapping("/queues/{id}/members")
-    public ResponseEntity<Object> createQueueMember(@PathVariable int id, @RequestBody Member member){
+    @PostMapping("/queues/{id}/members/{m_id}")
+    public ResponseEntity<Object> AddQueueMember(@PathVariable int id, @PathVariable int m_id){
         Optional<Queue> queueOptional = queueRepository.findById(id);
-        if(!queueOptional.isPresent()){
-            throw  new ResourceNotNotFoundException(("id-" +id));
+        Optional<User> userOptional = userRepository.findById(m_id);
+        if(!queueOptional.isPresent() || !userOptional.isPresent()){
+            throw  new ResourceNotNotFoundException(("id-" +id +" id-"+m_id));
         }
         Queue queue = queueOptional.get();
+        User member = userOptional.get();
         queue.getMembers().add(member);
         userRepository.save(member);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(member.getId()).toUri();

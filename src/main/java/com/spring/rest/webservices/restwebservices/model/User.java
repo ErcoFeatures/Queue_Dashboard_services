@@ -8,11 +8,12 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
 @ApiModel(description = "All details about the user")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Entity
 public class User {
 
 
@@ -24,21 +25,19 @@ public class User {
     private String name;
     @Past
     @ApiModelProperty(notes = "Birth date should be in the past")
-    private Date birthDate;
+    private String phoneNumber;
 
-    @OneToMany
+
+    @OneToMany(mappedBy = "owner")
     private Set<Queue> queues = new HashSet<Queue>();
-
-//    @ManyToOne
-//    private Queue queue;
 
     protected  User (){
 
     }
-    public User(Integer id, String name, Date birthDate) {
+    public User(Integer id, String name, String phoneNumber) {
         this.id = id;
         this.name = name;
-        this.birthDate = birthDate;
+        this.phoneNumber = phoneNumber;
     }
 
     public Integer getId() {
@@ -49,8 +48,8 @@ public class User {
         return name;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public String getBirthDate() {
+        return phoneNumber;
     }
 
     public void setId(Integer id) {
@@ -61,8 +60,8 @@ public class User {
         this.name = name;
     }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthDate(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Set<Queue> getQueues() {
@@ -78,7 +77,7 @@ public class User {
         return "com.spring.rest.webservices.restwebservices.entity.User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", birthDate=" + birthDate +
+                ", birthDate=" + phoneNumber +
                 '}';
     }
 }

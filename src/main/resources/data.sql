@@ -1,9 +1,13 @@
  insert  into user values(10001, sysdate(), 'AB');
  insert  into user values(10002, sysdate(), 'Jill');
--- insert  into user values(10003, sysdate(), 'Jack');
+insert  into user values(10003, sysdate(), 'Jack');
+insert  into user values(10004, sysdate(), 'Jack');
+insert  into user values(10005, sysdate(), 'Jack');
+insert  into user values(10006, sysdate(), 'Jack');
+insert  into user values(10007, sysdate(), 'Jack');
 --
---  insert  into queue values(101, 'Salon 1', '10001');
---  insert  into queue values(102, 'Salon 2', '10001');
+ insert  into queue values(101, 'Salon 1', '10001');
+ insert  into queue values(102, 'Salon 2', '10001');
 --
 --
 --
