@@ -19,6 +19,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 public class UserController {
@@ -64,4 +65,13 @@ public class UserController {
         userRepository.deleteById(id);
     }
 
+//    @GetMapping("/users/{id}/queues")
+//    public Set<Queue> retrieveAllUserQueues(@PathVariable int id ) {
+//        Optional<User> userOptional = userRepository.findById(id);
+//
+//        if (!userOptional.isPresent()) {
+//            throw new ResourceNotNotFoundException("id-" + id);
+//        }
+//        return userOptional.get().getQueues();
+//    }
 }
