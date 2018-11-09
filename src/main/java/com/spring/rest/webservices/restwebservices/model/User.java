@@ -48,7 +48,7 @@ public class User {
         return name;
     }
 
-    public String getBirthDate() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -60,7 +60,7 @@ public class User {
         this.name = name;
     }
 
-    public void setBirthDate(String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
