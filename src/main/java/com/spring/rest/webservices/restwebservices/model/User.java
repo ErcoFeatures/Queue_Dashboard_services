@@ -14,70 +14,85 @@ import java.util.Set;
 
 @ApiModel(description = "All details about the user")
 @Entity
+@Table(name = "user")
 public class User {
 
-
     @Id
-    @GeneratedValue
-    private Integer id;
-    @Size(min=2, message = "Name should have at least 2 characters")
-    @ApiModelProperty (notes = "Name should have at least 2 characters")
-    private String name;
-    @Past
-    @ApiModelProperty(notes = "Birth date should be in the past")
-    private String phoneNumber;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
+    @Column(name = "email")
+    private String email;
 
-    @OneToMany(mappedBy = "owner")
-    private Set<Queue> queues = new HashSet<Queue>();
+    @Column(name = "firstname")
+    private String firstname;
 
-    protected  User (){
+    @Column(name = "lastname")
+    private String lastname;
 
-    }
-    public User(Integer id, String name, String phoneNumber) {
-        this.id = id;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-    }
+    @Column(name = "password")
+    private String password;
 
-    public Integer getId() {
+    @Column(name = "active")
+    private int active;
+
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(name="user_role", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="role_id"))
+    private Set<Role> roles;
+
+    public int getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Set<Queue> getQueues() {
-        return queues;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setQueues(Set<Queue> queues) {
-        this.queues = queues;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    @Override
-    public String toString() {
-        return "com.spring.rest.webservices.restwebservices.entity.User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", birthDate=" + phoneNumber +
-                '}';
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
