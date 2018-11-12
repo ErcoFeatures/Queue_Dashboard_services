@@ -7,7 +7,21 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.min.css">
-</head>
+
+
+
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var usercontext = [[${user}]];
+        debugger;
+        window.Qdashbord = {
+                get UserContext() {
+                    return JSON.parse(usercontext);
+                }
+            }
+        /*]]>*/
+    </script>
+            </head>
 <body>
 <div class="container">
     <h2>Hi <span th:utext="${userName}"></span>, this is the home page.</h2>
