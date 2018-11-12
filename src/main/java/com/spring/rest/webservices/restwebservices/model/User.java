@@ -1,5 +1,6 @@
 package com.spring.rest.webservices.restwebservices.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -19,7 +20,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
     @Column(name = "email")
     private String email;
@@ -30,8 +31,12 @@ public class User {
     @Column(name = "lastname")
     private String lastname;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "owner")
+    private Set<Queue> queues = new HashSet<Queue>();
 
     @Column(name = "active")
     private int active;
@@ -40,11 +45,13 @@ public class User {
     @JoinTable(name="user_role", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="role_id"))
     private Set<Role> roles;
 
-    public int getId() {
+
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -94,5 +101,29 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+
+    public Set<Queue> getQueues() {
+        return queues;
+    }
+
+    public void setQueues(Set<Queue> queues) {
+        this.queues = queues;
+    }
+
+//
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", queues=" + queues +
+                ", active=" + active +
+                ", roles=" + roles +
+                '}';
     }
 }
