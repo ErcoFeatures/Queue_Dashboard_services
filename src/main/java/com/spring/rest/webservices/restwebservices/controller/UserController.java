@@ -92,7 +92,7 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/userdetails/Qdashboard", produces = "application/json")
     @ResponseBody
-    public String getUserDetailsPlan() throws JsonProcessingException {
+    public String getUserDetailsQD() throws JsonProcessingException {
         String userSting = getRecruitUserContext();
         return  userSting;
     }
