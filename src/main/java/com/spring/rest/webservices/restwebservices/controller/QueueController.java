@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -39,6 +40,15 @@ public class QueueController {
         }
         return userOptional.get().getQueues();
     }
+    @GetMapping("/queues")
+        public List<Queue> retrieveAllQueue() {
+        List<Queue> allQueues = queueRepository.findAll();
+
+            if (allQueues.isEmpty()) {
+                throw new ResourceNotNotFoundException("There is no Queue");
+            }
+            return queueRepository.findAll();
+        }
 
     @PostMapping("/users/{id}/queues")
     public ResponseEntity<Object> createQueue(@PathVariable Long id, @RequestBody Queue queue) {
