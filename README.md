@@ -21,4 +21,6 @@ This project is a  _**REST FULL WEB SERVICES**_ built using a combination of : <
 [Spring JPA](https://github.com/spring-projects/spring-data-jpa)
 
 ## Services Documentation 
-After running the tomcat, go to [here](http://localhost:8080/swagger-ui.html) to get the full documentation about the Services 
+After running the tomcat, go to [here](http://localhost:8080/swagger-ui.html) to get the full documentation about the Services
+
+### `ALTER USER 'username'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';` 
