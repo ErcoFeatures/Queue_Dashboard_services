@@ -1,5 +1,6 @@
 package com.spring.rest.webservices.restwebservices.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -14,55 +15,94 @@ import java.util.Set;
 
 @ApiModel(description = "All details about the user")
 @Entity
+@Table(name = "user")
 public class User {
 
-
     @Id
-    @GeneratedValue
-    private Integer id;
-    @Size(min=2, message = "Name should have at least 2 characters")
-    @ApiModelProperty (notes = "Name should have at least 2 characters")
-    private String name;
-    @Past
-    @ApiModelProperty(notes = "Birth date should be in the past")
-    private String phoneNumber;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "firstname")
+    private String firstname;
+
+    @Column(name = "lastname")
+    private String lastname;
+
+    @JsonIgnore
+    @Column(name = "password")
+    private String password;
 
     @OneToMany(mappedBy = "owner")
     private Set<Queue> queues = new HashSet<Queue>();
 
-    protected  User (){
+    @Column(name = "active")
+    private int active;
 
-    }
-    public User(Integer id, String name, String phoneNumber) {
-        this.id = id;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-    }
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(name="user_role", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="role_id"))
+    private Set<Role> roles;
 
-    public Integer getId() {
+
+
+    public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getBirthDate() {
-        return phoneNumber;
-    }
-
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setBirthDate(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setEmail(String email) {
+        this.email = email;
     }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
 
     public Set<Queue> getQueues() {
         return queues;
@@ -72,12 +112,18 @@ public class User {
         this.queues = queues;
     }
 
+//
+
     @Override
     public String toString() {
-        return "com.spring.rest.webservices.restwebservices.entity.User{" +
+        return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", birthDate=" + phoneNumber +
+                ", email='" + email + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", queues=" + queues +
+                ", active=" + active +
+                ", roles=" + roles +
                 '}';
     }
 }
