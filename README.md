@@ -2,7 +2,7 @@
 
 
 ## GOAL 
-This project allows a user to create his own Queue and be able to track the list of members he is manages
+This project allows a user to create his own Queue and be able to track the list of members he is managing
 
 ## Available Scripts
 
